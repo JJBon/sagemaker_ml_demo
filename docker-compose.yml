@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  python_services:
+    stdin_open: true
+    tty: true 
+    platform: linux/amd64
+    volumes:
+        - .:/tf/python_code
+    # env_file:
+    # - ../infra/environments/.env_dev
+    image: tensorflow:1.0.1
+    ports:
+      - 8888:8888
