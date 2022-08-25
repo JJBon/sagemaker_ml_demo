@@ -7,10 +7,10 @@ from tensorflow import saved_model
 
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.externals import joblib
+import joblib
 
-from keras.models import load_model
-from keras.wrappers.scikit_learn import KerasClassifier
+from tensorflow.keras.models import load_model
+from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
 
 import model as m
 import config
@@ -58,16 +58,16 @@ def get_train_test_target(df):
 def save_pipeline_keras(model):
 
     #sage maker suported save 
-    sess = K.get_session()
-    saved_model.simple_save(
-        sess,
-        config.MODEL_PATH,
-        inputs={'inputs': model.input},
-        outputs={t.name: t for t in model.outputs})
+    # sess = K.get_session()
+    # saved_model.simple_save(
+    #     sess,
+    #     config.MODEL_PATH,
+    #     inputs={'inputs': model.input},
+    #     outputs={t.name: t for t in model.outputs})
     
-    # joblib.dump(model.named_steps['dataset'], config.PIPELINE_PATH)
-    # joblib.dump(model.named_steps['cnn_model'].classes_, config.CLASSES_PATH)
-    # model.named_steps['cnn_model'].model.save(config.MODEL_PATH)
+    joblib.dump(model.named_steps['dataset'], config.PIPELINE_PATH)
+    joblib.dump(model.named_steps['cnn_model'].classes_, config.CLASSES_PATH)
+    model.named_steps['cnn_model'].model.save(config.MODEL_PATH)
     
     
 def load_pipeline_keras():

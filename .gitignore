@@ -1,0 +1,4 @@
+.vscode
+v2-plan-seedlings-dataset
+cnn_model.h5
+encoder.pkl

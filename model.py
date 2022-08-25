@@ -1,9 +1,9 @@
 # for the convolutional network
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten
-from keras.optimizers import Adam
-from keras.callbacks import ReduceLROnPlateau, ModelCheckpoint
-from keras.wrappers.scikit_learn import KerasClassifier
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import ReduceLROnPlateau, ModelCheckpoint
+from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
 
 import config
 
@@ -50,12 +50,12 @@ def cnn_model(kernel_size = (3,3),
 
 
 checkpoint = ModelCheckpoint(config.MODEL_PATH,
-                             monitor='acc',
+                             monitor='accuracy',
                              verbose=1, 
                              save_best_only=True,
                              mode='max')
 
-reduce_lr = ReduceLROnPlateau(monitor='acc',
+reduce_lr = ReduceLROnPlateau(monitor='accuracy',
                               factor=0.5,
                               patience=2,
                               verbose=1,

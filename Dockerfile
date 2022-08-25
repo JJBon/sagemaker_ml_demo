@@ -95,4 +95,11 @@ RUN chmod +x /usr/local/bin/deep_learning_container.py
 
 RUN curl https://aws-dlc-licenses.s3.amazonaws.com/tensorflow-2.1/license.txt -o /license.txt
 
+RUN apt-get update
+RUN apt-get install ffmpeg libsm6 libxext6  -y
+RUN pip install opencv-python
+RUN pip install scikit-learn
+RUN pip install pandas 
+RUN pip install tensorflow
+
 CMD ["/usr/bin/tf_serving_entrypoint.sh"]

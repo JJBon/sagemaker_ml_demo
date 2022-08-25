@@ -3,7 +3,7 @@ from sklearn.pipeline import Pipeline
 import config
 import preprocessors as pp
 import model
-from sklearn.externals import joblib
+import joblib
 
 
 pipe = Pipeline([
@@ -37,6 +37,3 @@ if __name__ == '__main__':
                    sample_weight=None)
     
     print('Acuracy: ', acc)
-
-    joblib.dump(enc, config.ENCODER_PATH)
-    dm.save_pipeline_keras(pipe.pipe)
