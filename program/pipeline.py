@@ -25,6 +25,9 @@ if __name__ == '__main__':
     enc = pp.TargetEncoder()
     enc.fit(y_train)
     y_train = enc.transform(y_train)
+
+    print(X_train)
+    print(type(X_train))
     
     pipe.fit(X_train, y_train)
     

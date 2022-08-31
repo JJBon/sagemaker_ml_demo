@@ -6,7 +6,8 @@ services:
     tty: true 
     platform: linux/amd64
     volumes:
-        - .:/tf/python_code
+        - ./work_dir:/opt/ml
+        - ./program:/opt/program
     # env_file:
     # - ../infra/environments/.env_dev
     image: tensorflow:1.0.1
@@ -16,4 +17,4 @@ services:
       - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
     ports:
-      - 8888:8888
+      - 8080:8080

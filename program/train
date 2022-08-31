@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+
+# A sample training component that trains a simple scikit-learn decision tree model.
+# This implementation works in File mode and makes no assumptions about the input file names.
+# Input is specified as CSV with a data point in each row and the labels in the first column.
+
+import joblib
+import sys
+
+import data_management as dm
+import config
+import pipeline as pipe
+import preprocessors as pp
+
+def run_training(save_result: bool = True):
+    
+    images_df = dm.load_image_paths(config.DATA_FOLDER)
+
+    X_train, X_test, y_train, y_test = dm.get_train_test_target(images_df)
+    
+    enc = pp.TargetEncoder()
+    enc.fit(y_train)
+    y_train = enc.transform(y_train)
+    
+    print("training pipe")
+    pipe.pipe.fit(X_train, y_train)
+    
+    if save_result:
+        joblib.dump(enc, config.ENCODER_PATH)
+        dm.save_pipeline_keras(pipe.pipe)
+
+
+if __name__ == '__main__':
+    run_training()
+     # A zero exit code causes the job to be marked a Succeeded.
+    sys.exit(0)

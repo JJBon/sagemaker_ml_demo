@@ -68,7 +68,7 @@ callbacks_list = [checkpoint, reduce_lr]
 
 cnn_clf = KerasClassifier(build_fn=cnn_model,
                           batch_size=config.BATCH_SIZE, 
-                          validation_split=10,
+                          #validation_split=10,
                           epochs=config.EPOCHS,
                           verbose=2,
                           callbacks=callbacks_list,

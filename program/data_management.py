@@ -5,6 +5,8 @@ import os
 from tensorflow.keras import backend as K
 from tensorflow import saved_model
 
+import pickle
+
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 import joblib
@@ -37,7 +39,10 @@ def load_image_paths(data_folder):
 	
     return images_df
 
-
+def load_single_file(filepath):
+    tmp = pd.DataFrame([filepath])
+    tmp.columns = ['image']
+    return tmp
 
 def get_train_test_target(df):
     
@@ -57,14 +62,6 @@ def get_train_test_target(df):
 
 def save_pipeline_keras(model):
 
-    #sage maker suported save 
-    # sess = K.get_session()
-    # saved_model.simple_save(
-    #     sess,
-    #     config.MODEL_PATH,
-    #     inputs={'inputs': model.input},
-    #     outputs={t.name: t for t in model.outputs})
-    
     joblib.dump(model.named_steps['dataset'], config.PIPELINE_PATH)
     joblib.dump(model.named_steps['cnn_model'].classes_, config.CLASSES_PATH)
     model.named_steps['cnn_model'].model.save(config.MODEL_PATH)

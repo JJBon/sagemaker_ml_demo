@@ -1,3 +1,4 @@
+from doctest import DocFileSuite
 import numpy as np
 import cv2
 from tensorflow.keras import utils as np_utils 
@@ -23,6 +24,9 @@ class TargetEncoder(BaseEstimator, TransformerMixin):
     
     
 def _im_resize(df, n, image_size):
+    print("n var ", n)
+    print("df ", df)
+    print("df[n]", df[n])
     im = cv2.imread(df[n])
     im = cv2.resize(im, (image_size, image_size))
     return im
@@ -36,6 +40,8 @@ class CreateDataset(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
+        print("X", X)
+        print("image_size ",self.image_size)
         X = X.copy()
         tmp = np.zeros((len(X),
                         self.image_size,

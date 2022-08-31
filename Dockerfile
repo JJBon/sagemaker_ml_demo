@@ -65,7 +65,6 @@ RUN ${PIP} install --no-cache-dir \
  
 #RUN pip install keras==2.9.0
 
-COPY ./sagemaker /sagemaker
 
 # Some TF tools expect a "python" binary
 RUN ln -s $(which ${PYTHON}) /usr/local/bin/python
@@ -95,11 +94,18 @@ RUN chmod +x /usr/local/bin/deep_learning_container.py
 
 RUN curl https://aws-dlc-licenses.s3.amazonaws.com/tensorflow-2.1/license.txt -o /license.txt
 
+
 RUN apt-get update
 RUN apt-get install ffmpeg libsm6 libxext6  -y
 RUN pip install opencv-python
 RUN pip install scikit-learn
 RUN pip install pandas 
 RUN pip install tensorflow
+RUN pip install joblib
+RUN pip install flask
 
-CMD ["/usr/bin/tf_serving_entrypoint.sh"]
+ENV PATH="/opt/program:${PATH}"
+COPY program /opt/program 
+WORKDIR /opt/program
+
+
