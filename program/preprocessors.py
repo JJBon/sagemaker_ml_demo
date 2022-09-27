@@ -5,7 +5,8 @@ from tensorflow.keras import utils as np_utils
 #from tensorflow.keras.utils import np_utils
 from sklearn.preprocessing import LabelEncoder
 from sklearn.base import BaseEstimator, TransformerMixin
-
+import urllib
+import boto3
 
 class TargetEncoder(BaseEstimator, TransformerMixin):
 
@@ -22,12 +23,23 @@ class TargetEncoder(BaseEstimator, TransformerMixin):
         X = np_utils.to_categorical(self.encoder.transform(X))
         return X
     
-    
 def _im_resize(df, n, image_size):
     df.describe()
-    im = cv2.imread(df[0].iloc[0])
+    bucket = df[0].iloc[n]
+    key = df[1].iloc[n]
+    s3_client = boto3.client('s3',
+                         region_name='us-east-1'
+                         )
+    response = s3_client.generate_presigned_url('get_object',
+                                                Params={'Bucket': bucket,
+                                                        'Key': key},
+                                                ExpiresIn=60)
+    resp = urllib.request.urlopen(response)
+    image = np.asarray(bytearray(resp.read()), dtype="uint8")
+    im = cv2.imdecode(image, cv2.IMREAD_COLOR)
     im = cv2.resize(im, (image_size, image_size))
     return im
+
 
 class CreateDataset(BaseEstimator, TransformerMixin):
 

@@ -49,20 +49,15 @@ def transformation():
 
     # Convert from CSV to pandas
     if flask.request.content_type == "text/plain":
-        print("debug")
         data = flask.request.data.decode("utf-8")
         s = io.StringIO(data)
         data = pd.read_csv(s, header=None)
-        data.columns = ["image","target"]
-        data["image"] = data["image"].apply(lambda x: os.path.join(x)) 
-        data.columns = [0,1]
     else:
         return flask.Response(
             response="This predictor only supports CSV data", status=415, mimetype="text/plain"
         )
 
-    print("Invoked with {} records".format(data.shape[0]))
-    print("data ",data.info())
+    
     # Do the prediction
     pipeline = data_management.load_pipeline_keras()
     predictions = pipeline.predict(data)

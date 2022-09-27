@@ -68,7 +68,12 @@ def save_pipeline_keras(model):
     
     
 def load_pipeline_keras():
-    dataset = joblib.load(config.PIPELINE_PATH)
+    try:
+        dataset = joblib.load(config.PIPELINE_PATH)
+    except:
+        print("no data set found on /opt/ml/model/demo_keras")
+        import glob 
+        print(glob.glob("/opt/ml/model/demo_keras/*"))
     
     build_model = lambda: load_model(config.MODEL_PATH)
     
