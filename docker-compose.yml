@@ -10,7 +10,7 @@ services:
         - ./program:/opt/program
     # env_file:
     # - ../infra/environments/.env_dev
-    image: tensorflow:1.0.1
+    image: tensorflow:2.1.0
     build:
       context: .
       dockerfile: Dockerfile
