@@ -11,8 +11,8 @@ BATCH_SIZE = 4
 EPOCHS = 1 
 
 # MODEL PERSISTING 
-MODEL_PATH = "/opt/ml/models/demo_keras/cnn_model.h5"
-PIPELINE_PATH = "/opt/ml/models/demo_keras/cnn_pipe.pkl"  
-CLASSES_PATH = "/opt/ml/models/demo_keras/classes.pkl"
-ENCODER_PATH = '/opt/ml/models/demo_keras/encoder.pkl'
+MODEL_PATH = "/opt/ml/models/demo-keras/cnn_model.h5"
+PIPELINE_PATH = "/opt/ml/models/demo-keras/cnn_pipe.pkl"  
+CLASSES_PATH = "/opt/ml/models/demo-keras/classes.pkl"
+ENCODER_PATH = '/opt/ml/models/demo-keras/encoder.pkl'
 
