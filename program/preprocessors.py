@@ -1,5 +1,6 @@
 from doctest import DocFileSuite
 import numpy as np
+import pandas
 import cv2
 from tensorflow.keras import utils as np_utils 
 #from tensorflow.keras.utils import np_utils
@@ -24,7 +25,11 @@ class TargetEncoder(BaseEstimator, TransformerMixin):
         return X
     
 def _im_resize(df, n, image_size):
-    df.describe()
+    if not isinstance(df,pandas.core.frame.DataFrame):
+          im = cv2.imread(df[n])
+          im = cv2.resize(im, (image_size, image_size))
+          return im
+
     bucket = df[0].iloc[n]
     key = df[1].iloc[n]
     s3_client = boto3.client('s3',
