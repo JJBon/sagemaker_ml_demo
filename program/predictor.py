@@ -25,6 +25,8 @@ model_path = os.path.join(prefix, "model")
 
 # The flask app for serving predictions
 app = flask.Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 11336251
+
 
 
 @app.route("/ping", methods=["GET"])
@@ -52,6 +54,13 @@ def transformation():
         data = flask.request.data.decode("utf-8")
         s = io.StringIO(data)
         data = pd.read_csv(s, header=None)
+    elif "image" in flask.request.content_type:
+        print("process byte string")
+        print(type(flask.request.data))
+        data = flask.request.data
+        #save image from bytes
+
+
     else:
         return flask.Response(
             response="This predictor only supports CSV data", status=415, mimetype="text/plain"

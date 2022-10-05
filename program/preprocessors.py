@@ -25,10 +25,21 @@ class TargetEncoder(BaseEstimator, TransformerMixin):
         return X
     
 def _im_resize(df, n, image_size):
-    if not isinstance(df,pandas.core.frame.DataFrame):
+
+    if isinstance(df ,bytes):
+        image = np.asarray(bytearray(df), dtype="uint8")
+        im = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        im = cv2.resize(im, (image_size, image_size))
+        return im
+
+
+    
+    elif not isinstance(df,pandas.core.frame.DataFrame):
           im = cv2.imread(df[n])
           im = cv2.resize(im, (image_size, image_size))
           return im
+
+
 
     bucket = df[0].iloc[n]
     key = df[1].iloc[n]
@@ -55,8 +66,14 @@ class CreateDataset(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
-        print("X", X)
-        print("image_size ",self.image_size)
+        if isinstance(X,bytes):
+            im =  _im_resize(X, None, self.image_size)
+            tmp = np.zeros((1,
+                        self.image_size,
+                        self.image_size, 3), dtype='float32')
+            tmp[0] = im
+            return tmp
+
         X = X.copy()
         tmp = np.zeros((len(X),
                         self.image_size,

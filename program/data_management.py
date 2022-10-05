@@ -17,6 +17,9 @@ from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
 import model as m
 import config
 
+import traceback
+  
+
 
 def load_image_paths(data_folder):
     """
@@ -71,6 +74,7 @@ def load_pipeline_keras():
     try:
         dataset = joblib.load(config.PIPELINE_PATH)
     except:
+        traceback.print_exc()
         print("no data set found on /opt/ml/model/demo_keras")
         import glob 
         print(glob.glob("/opt/ml/model/demo_keras/*"))
