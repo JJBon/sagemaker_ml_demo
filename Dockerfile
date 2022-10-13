@@ -1,4 +1,4 @@
-FROM public.ecr.aws/ubuntu/ubuntu:18.04
+FROM public.ecr.aws/ubuntu/ubuntu:20.04_stable
 
 LABEL maintainer="Amazon AI"
 LABEL com.amazonaws.sagemaker.capabilities.accept-bind-to-port=true
@@ -37,8 +37,10 @@ RUN apt-get update \
  && echo 'deb http://nginx.org/packages/ubuntu/ bionic nginx' >> /etc/apt/sources.list \
  && apt-get update \
  && apt-get -y install --no-install-recommends \
-    nginx \
-    nginx-module-njs \
+    nginx  
+
+RUN apt-get -y install --no-install-recommends \    
+    #nginx-module-njs \
     python3 \
     python3-pip \
     python3-setuptools \
@@ -55,7 +57,7 @@ RUN ${PIP} install --no-cache-dir \
     cython==0.29.14 \
     falcon==2.0.0 \
     gunicorn==20.0.4 \
-    gevent==1.4.0 \
+    #gevent==1.4.0 \
     requests==2.22.0 \
     grpcio==1.27.1 \
     protobuf==3.11.1 \
