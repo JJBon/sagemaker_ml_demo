@@ -25,8 +25,6 @@ model_path = os.path.join(prefix, "model")
 
 # The flask app for serving predictions
 app = flask.Flask(__name__)
-app.config['MAX_CONTENT_LENGTH'] = 11336251
-
 
 
 @app.route("/ping", methods=["GET"])

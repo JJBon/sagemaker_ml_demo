@@ -8,12 +8,10 @@ services:
     volumes:
         - ./work_dir:/opt/ml
         - ./program:/opt/program
-    # env_file:
-    # - ../infra/environments/.env_dev
-    image: tensorflow:2.1.0
+    image: keras:ubuntu22_04slim
     build:
-      context: .
-      dockerfile: Dockerfile
+     context: .
+     dockerfile: builds/Dockerfile_ubuntu22_04slim
     environment:
       - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
