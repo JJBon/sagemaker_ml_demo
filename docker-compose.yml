@@ -8,10 +8,17 @@ services:
     volumes:
         - ./work_dir:/opt/ml
         - ./program:/opt/program
-    image: keras:ubuntu22_04slim
+    image: keras:ubuntu22_04gpu
     build:
      context: .
-     dockerfile: builds/Dockerfile_ubuntu22_04slim
+     dockerfile: builds/Dockerfile_ubuntu22.04gpu
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     environment:
       - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY

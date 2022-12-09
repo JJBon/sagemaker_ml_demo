@@ -11,9 +11,11 @@ import signal
 import sys
 import traceback
 import data_management
+import time
 
 import flask
 import pandas as pd
+
 
 prefix = "/opt/ml/"
 model_path = os.path.join(prefix, "model")
@@ -43,20 +45,23 @@ def transformation():
     it to a pandas data frame for internal use and then convert the predictions back to CSV (which really
     just means one prediction per line, since there's a single column.
     """
+    start = time.time()
     data = None
 
-    print(flask.request.content_type)
+    print("request content type ",flask.request.content_type)
+    print(flask.request)
 
     # Convert from CSV to pandas
-    if flask.request.content_type == "text/plain":
+    if flask.request.content_type == "text/plain" or flask.request.content_type == "text/csv":
         data = flask.request.data.decode("utf-8")
         s = io.StringIO(data)
         data = pd.read_csv(s, header=None)
     elif "image" in flask.request.content_type:
-        print("process byte string")
-        print(type(flask.request.data))
         data = flask.request.data
         #save image from bytes
+    elif flask.request.content_type:
+        data = flask.request.data
+        print("data ", data)
 
 
     else:
@@ -74,4 +79,6 @@ def transformation():
     pd.DataFrame({"results": predictions}).to_csv(out, header=False, index=False)
     result = out.getvalue()
 
+    end = time.time()
+    print("prediction time: ", end - start)
     return flask.Response(response=result, status=200, mimetype="text/csv")
