@@ -8,10 +8,10 @@ services:
     volumes:
         - ./work_dir:/opt/ml
         - ./program:/opt/program
-    image: keras:ubuntu22_04gpu
+    image: keras:ubuntu22_04gpu2
     build:
      context: .
-     dockerfile: builds/Dockerfile_ubuntu22.04gpu
+     dockerfile: builds/Dockerfile_ubuntu22.04gpu2
     deploy:
       resources:
         reservations:
